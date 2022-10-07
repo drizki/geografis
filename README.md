@@ -2,6 +2,9 @@
 
 Sebuah modul Node.js yang mengandung data kode wilayah desa/kelurahan, kecamatan, kabupaten/kota, provinsi, kode pos, koordinat, elevasi, dan geometri area seluruh Indonesia. Data yang terdapat dalam repository ini sesuai dengan Peraturan Menteri Dalam Negeri No. 72 Tahun 2019 dan Peraturan Menteri Dalam Negeri No. 146.1-4717 Tahun 2020.
 
+
+![Downloads](https://img.shields.io/npm/dt/geografis.svg) ![License MIT](https://img.shields.io/npm/l/geografis.svg) 
+
 ## Instalasi
 Anda dapat menggunakan modul ini pada lingkungan Node.js (tidak untuk browser) dengan cara sebagai berikut:
 ```bash
@@ -17,19 +20,35 @@ Setiap entri mengandung data yang terdiri atas nama kelurahan/desa, kecamatan, k
 
 ```json
   {
-    "code": "31.71.01.1001", // kode wilayah
-    "postal": 10110, // kode pos
+    "code": "31.71.01.1001",
+    "postal": 10110,
     "slug": "dki-jakarta/kota-administrasi-jakarta-pusat/gambir/gambir",
-    "province": "DKI Jakarta", // provinsi
-    "city": "Kota Administrasi Jakarta Pusat", // kabupaten atau kota
-    "district": "Gambir", // kecamatan
-    "village": "Gambir", // kelurahan atau desa
+    "province": "DKI Jakarta",
+    "city": "Kota Administrasi Jakarta Pusat",
+    "district": "Gambir",
+    "village": "Gambir",
     "latitude": -6.176262870636918,
     "longitude": 106.82932428386471,
-    "elevation": 5, // elevasi dalam meter
-    "geometry": true // ketersediaan geometri (poligon) dari kelurahan atau desa
+    "elevation": 5,
+    "geometry": true
   },
 ```
+
+|Key|Keterangan|
+|---|---|
+|code|Kode wilayah|
+|postal|Kode pos dari wilayah tersebut|
+|slug|Slug untuk wilayah tersebut|
+|province|Nama Provinsi|
+|city|Nama Kota/Kabupaten|
+|district|Nama Kecamatan|
+|village|Nama Desa/Kelurahan|
+|latitude|Latitude dari wilayah|
+|longitude|Longitude dari wilayah|
+|elevation|Elevasi wilayah dalam meter|
+|geometry|Apakah wilayah memiliki file geometri poligon|
+
+
 Anda dapat melihat data lengkapnya di sini.
 
 ## Penggunaan
