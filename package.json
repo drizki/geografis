@@ -1,6 +1,6 @@
 {
   "name": "geografis",
-  "version": "1.0.0", 
+  "version": "1.0.1", 
   "description": "Indonesia geographical information",
   "main": "src/main.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "author": "drizki",
   "license": "MIT",
   "private": false,
+  "keywords": ["geografis", "indonesia", "geo", "json", "geojson", "kode pos", "kode-pos", "kodepos", "wilayah", "wilayah-indonesia", "indonesia", "dataset", "indonesia-data", "indonesia-data-set"],
   "dependencies": {},
   "devDependencies": {
     "jest": "^29.1.2"
