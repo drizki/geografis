@@ -3,7 +3,7 @@
 Sebuah modul Node.js yang mengandung data kode wilayah desa/kelurahan, kecamatan, kabupaten/kota, provinsi, kode pos, koordinat, elevasi, dan geometri area seluruh Indonesia. Data yang terdapat dalam repository ini sesuai dengan Peraturan Menteri Dalam Negeri No. 72 Tahun 2019 dan Peraturan Menteri Dalam Negeri No. 146.1-4717 Tahun 2020.
 
 
-![Downloads](https://img.shields.io/npm/dt/geografis.svg) ![License MIT](https://img.shields.io/npm/l/geografis.svg) 
+[![npm version](https://badge.fury.io/js/geografis.svg)](https://badge.fury.io/js/geografis) ![Downloads](https://img.shields.io/npm/dt/geografis.svg) ![License MIT](https://img.shields.io/npm/l/geografis.svg) 
 
 ## Instalasi
 Anda dapat menggunakan modul ini pada lingkungan Node.js (tidak untuk browser) dengan cara sebagai berikut:
@@ -49,7 +49,7 @@ Setiap entri mengandung data yang terdiri atas nama kelurahan/desa, kecamatan, k
 |geometry|Apakah wilayah memiliki file geometri poligon|
 
 
-Anda dapat melihat data lengkapnya di sini.
+Anda dapat melihat data lengkapnya [di sini](https://github.com/drizki/geografis-data).
 
 ## Penggunaan
 Lihat file examples.js dalam folder examples untuk contoh penggunaan.
