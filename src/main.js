@@ -89,7 +89,6 @@ const geografis = {
         }
     },
 
-
     /**
      * Get province by slug
      * @param {string} slug province slug
@@ -137,6 +136,39 @@ const geografis = {
         if (!province) return {};
 
         const city = province.cities.filter(item => item.code == code)[0]
+        if (!city) return {};
+
+        return {
+            code: city.code,
+            city: city.city,
+            slug: city.slug,
+            districts: city.districts.map(item => {
+                return {
+                    code: item.code,
+                    district: item.district,
+                    slug: item.slug
+                }
+            })
+        }; 
+    },
+
+    /**
+     * Get city by slug
+     * @param {string} slug city slug
+     * @returns object containing city code, city name, slug, and districts 
+     * @throws {Error} if parameter slug is not string
+     * @throws {Error} if parameter slug is not provided
+     * @example 
+     * const city = geografis.getCityBySlug('jawa-barat/kota-bandung');
+     */
+    getCityBySlug(slug) {
+        if (!slug) throw new Error('Parameter slug is required');
+        if (typeof slug !== 'string') throw new Error('Parameter slug must be string');
+
+        const province = this.collection.filter(item => item.cities.filter(item => item.slug == slug).length > 0)[0];
+        if (!province) return {};
+
+        const city = province.cities.filter(item => item.slug == slug)[0];
         if (!city) return {};
 
         return {
