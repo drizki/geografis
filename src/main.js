@@ -89,6 +89,36 @@ const geografis = {
         }
     },
 
+
+    /**
+     * Get province by slug
+     * @param {string} slug province slug
+     * @returns object containing province code, province name, slug, and cities
+     * @throws {Error} if parameter slug is not string
+     * @throws {Error} if parameter slug is not provided
+     * @example
+     * const province = geografis.getProvinceBySlug('jawa-barat');
+     */
+    getProvinceBySlug(slug) {
+        if (!slug) throw new Error('Parameter slug is required');
+        if (typeof slug !== 'string') throw new Error('Parameter slug must be string');
+
+        const search = this.collection.filter(item => item.slug == slug)[0];
+        if (!search) return {};
+ 
+        return {
+            code: search.code,
+            province: search.province,
+            cities: search.cities.map(item => {
+                return {
+                    code: item.code,
+                    city: item.city,
+                    slug: item.slug
+                }
+            }) 
+        }
+    },
+
     /**
      * Get city by code
      * @param {string} code city code
