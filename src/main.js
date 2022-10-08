@@ -8,6 +8,8 @@ const geografis = {
     /**
      * Dumps all data
      * @returns {Array} Array of all villages
+     * @example
+     * const data = geografis.dump()
      */
     dump() { 
         return this.data;
@@ -16,11 +18,10 @@ const geografis = {
     /**
      * Dumb search for code, postal, village, district, city, or province
      * @param {string} query search query
-     * @returns object containing results count and data array
+     * @returns {object} containing results count and data array
      * @throws {Error} if query is not string
      * @throws {Error} if query is empty
-     * @example
-     * const geografis = require('geografis');
+     * @example 
      * const search = geografis.search('ciumbuleuit'); 
      */
     search(query) {
@@ -47,7 +48,9 @@ const geografis = {
 
     /**
      * Get province list
-     * @returns array of provinces 
+     * @returns {Array} of provinces 
+     * @example
+     * const provinces = geografis.provinces();
      */
     getProvinces() {
         return this.collection.map(item => {
@@ -62,7 +65,7 @@ const geografis = {
     /**
      * Get province by code
      * @param {string} code province code
-     * @returns object containing province code, province name, and slug
+     * @returns {object} containing province code, province name, and slug
      * @throws {Error} if province not found
      * @throws {Error} if parameter code is not string
      * @throws {Error} if parameter code is not provided
@@ -92,7 +95,7 @@ const geografis = {
     /**
      * Get province by slug
      * @param {string} slug province slug
-     * @returns object containing province code, province name, slug, and cities
+     * @returns {object} containing province code, province name, slug, and cities
      * @throws {Error} if parameter slug is not string
      * @throws {Error} if parameter slug is not provided
      * @example
@@ -121,7 +124,7 @@ const geografis = {
     /**
      * Get city by code
      * @param {string} code city code
-     * @returns object containing city code, city name, slug, and districts
+     * @returns {object} containing city code, city name, slug, and districts
      * @throws {Error} if city not found
      * @throws {Error} if parameter code is not string
      * @throws {Error} if parameter code is not provided
@@ -155,7 +158,7 @@ const geografis = {
     /**
      * Get city by slug
      * @param {string} slug city slug
-     * @returns object containing city code, city name, slug, and districts 
+     * @returns {object} containing city code, city name, slug, and districts 
      * @throws {Error} if parameter slug is not string
      * @throws {Error} if parameter slug is not provided
      * @example 
@@ -188,10 +191,10 @@ const geografis = {
     /**
      * Get district by code
      * @param {string} code district code
-     * @returns object containing district code, district name, and slug
-     * @throws error if district not found
-     * @throws error if parameter code is not string
-     * @throws error if parameter code is not provided
+     * @returns {object} containing district code, district name, and slug
+     * @throws {Error} if district not found
+     * @throws {Error} if parameter code is not string
+     * @throws {Error} if parameter code is not provided
      * @example
      * const district = geografis.getDistrict('11.01.01');
      */
@@ -222,7 +225,15 @@ const geografis = {
         };
     },
 
-
+    /**
+     * Get district by slug
+     * @param {string} slug district slug
+     * @returns {object} containing district code, district name, and slug
+     * @throws {Error} if parameter slug is not string
+     * @throws {Error} if parameter slug is not provided
+     * @example
+     * const district = geografis.getDistrictBySlug('jawa-barat/kota-bandung/cibeunying-kaler');
+     */
     getDistrictBySlug(slug) {
         if (!slug) throw new Error('Parameter slug is required');
         if (typeof slug !== 'string') throw new Error('Parameter slug must be string');
@@ -272,7 +283,7 @@ const geografis = {
     /**
      * Get village by postal code
      * @param {number} postalCode postal code
-     * @returns object containing village code, postal code, village name, slug, latitude, longitude, elevation, and geometry
+     * @returns {object} containing village code, postal code, village name, slug, latitude, longitude, elevation, and geometry
      * @throws {Error} if parameter postalCode is not number
      * @throws {Error} if parameter postalCode is not provided
      * @example
@@ -291,7 +302,7 @@ const geografis = {
      * Get nearest village by latitude and longitude
      * @param {number} latitude latitude
      * @param {number} longitude longitude
-     * @returns object containing village code, postal code, village name, slug, latitude, longitude, elevation, and geometry
+     * @returns {object} containing village code, postal code, village name, slug, latitude, longitude, elevation, and geometry
      * @throws {Error} if parameter latitude is not number
      * @throws {Error} if parameter latitude is not provided
      * @throws {Error} if parameter longitude is not number
@@ -325,7 +336,7 @@ const geografis = {
      * Get village geometry by village code, if any
      * @param {string} code village code
      * @param {string} geoJsonDir geojson directory
-     * @returns object in GEOJSON format
+     * @returns {object} in GEOJSON format
      * @throws {Error} if village not found
      * @throws {Error} if parameter code is not string
      * @throws {Error} if parameter code is not provided
