@@ -221,6 +221,34 @@ const geografis = {
             })
         };
     },
+
+
+    getDistrictBySlug(slug) {
+        if (!slug) throw new Error('Parameter slug is required');
+        if (typeof slug !== 'string') throw new Error('Parameter slug must be string');
+
+        const province = this.collection.filter(item => item.cities.filter(item => item.districts.filter(item => item.slug == slug).length > 0).length > 0)[0];
+        if (!province) return {};
+
+        const city = province.cities.filter(item => item.districts.filter(item => item.slug == slug).length > 0)[0];
+        if (!city) return {};
+
+        const district = city.districts.filter(item => item.slug == slug)[0];
+        if (!district) return {};
+
+        return {  
+            code: district.code,
+            district: district.district,
+            slug: district.slug,
+            villages: district.villages.map(item => {
+                return {
+                    code: item.code, 
+                    village: item.village,
+                    slug: item.slug
+                }
+            })
+        };
+    },
     
     /**
      * Get village by code
