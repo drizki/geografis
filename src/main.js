@@ -144,6 +144,7 @@ const geografis = {
         return {
             code: city.code,
             city: city.city,
+            province: province.province,
             slug: city.slug,
             districts: city.districts.map(item => {
                 return {
@@ -177,6 +178,7 @@ const geografis = {
         return {
             code: city.code,
             city: city.city,
+            province: province.province,
             slug: city.slug,
             districts: city.districts.map(item => {
                 return {
@@ -214,6 +216,8 @@ const geografis = {
         return {  
             code: district.code,
             district: district.district,
+            city: city.city,
+            province: province.province,
             slug: district.slug,
             villages: district.villages.map(item => {
                 return {
@@ -250,6 +254,8 @@ const geografis = {
         return {  
             code: district.code,
             district: district.district,
+            city: city.city,
+            province: province.province,
             slug: district.slug,
             villages: district.villages.map(item => {
                 return {
