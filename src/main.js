@@ -264,7 +264,7 @@ const geografis = {
     /**
      * Get village by code
      * @param {string} code village code
-     * @returns object containing village code, postal code, village name, slug, latitude, longitude, elevation, and geometry
+     * @returns {object} containing village code, postal code, village name, slug, latitude, longitude, elevation, and geometry
      * @throws {Error} if village not found
      * @throws {Error} if parameter code is not string
      * @throws {Error} if parameter code is not provided
@@ -276,6 +276,24 @@ const geografis = {
         if (typeof code !== 'string') throw new Error('Parameter code must be string');
 
         const village = this.data.find(item => item.code == code)
+        if (!village) return {};
+        return village;
+    },
+
+    /**
+     * Get village by slug
+     * @param {string} slug village slug
+     * @returns {object} containing village code, postal code, village name, slug, latitude, longitude, elevation, and geometry
+     * @throws {Error} if parameter slug is not string
+     * @throws {Error} if parameter slug is not provided
+     * @example
+     * const village = geografis.getVillageBySlug('jawa-barat/kota-bandung/cibeunying-kaler/cibeunying-kaler');
+     */
+    getVillageBySlug(slug) {
+        if (!slug) throw new Error('Parameter slug is required');
+        if (typeof slug !== 'string') throw new Error('Parameter slug must be string');
+
+        const village = this.data.find(item => item.slug == slug)
         if (!village) return {};
         return village;
     },
