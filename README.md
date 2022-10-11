@@ -19,22 +19,22 @@ yarn add geografis
 Setiap entri mengandung data yang terdiri atas nama kelurahan/desa, kecamatan, kabupaten/kota, provinsi, latitude, longitude, elevasi, kode pos, geometri (GeoJSON, beberapa tidak tersedia) dan Kode Wilayah. Pustaka ini mengandung 83,449 jumlah entri. Berikut ini adalah contoh keluaran data:
 
 ```json
-  {
-    "code": "31.71.01.1001",
-    "postal": 10110,
-    "slug": "dki-jakarta/kota-administrasi-jakarta-pusat/gambir/gambir",
-    "province": "DKI Jakarta",
-    "city": "Kota Administrasi Jakarta Pusat",
-    "district": "Gambir",
-    "village": "Gambir",
-    "latitude": -6.176262870636918,
-    "longitude": 106.82932428386471,
-    "elevation": 5,
-    "geometry": true
-  },
+{
+  "code": "31.71.01.1001",
+  "postal": 10110,
+  "slug": "dki-jakarta/kota-administrasi-jakarta-pusat/gambir/gambir",
+  "province": "DKI Jakarta",
+  "city": "Kota Administrasi Jakarta Pusat",
+  "district": "Gambir",
+  "village": "Gambir",
+  "latitude": -6.176262870636918,
+  "longitude": 106.82932428386471,
+  "elevation": 5,
+  "geometry": true
+},
 ```
 
-|Key|Keterangan|
+|Field|Keterangan|
 |---|---|
 |code|Kode wilayah|
 |postal|Kode pos dari wilayah tersebut|
@@ -46,16 +46,171 @@ Setiap entri mengandung data yang terdiri atas nama kelurahan/desa, kecamatan, k
 |latitude|Latitude dari wilayah|
 |longitude|Longitude dari wilayah|
 |elevation|Elevasi wilayah dalam meter|
-|geometry|Apakah wilayah memiliki file geometri poligon|
-
-
-Anda dapat melihat data lengkapnya [di sini](https://github.com/drizki/geografis-data).
+|geometry|Apakah wilayah memiliki file geometri (poligon)|
 
 ## Penggunaan
-Lihat file examples.js dalam folder examples untuk contoh penggunaan.
 
-### getGeometry
-Untuk menggunakan fungsi getGeometry, Anda harus mengunduh data geojson yang terdapat di [repository ini](https://github.com/drizki/geografis-data). Simpan di dalam direktori: project_anda / data / geojson.
+### ⚙️ Fungsi geografis.dump()
+Mendapatkan semua data kelurahan/desa dari database.
+Penggunaan:
+```javascript
+const geografis = require('geografis');
+const dump = geografis.dump();
+console.log(dump)
+```
+
+
+### ⚙️ Fungsi geografis.search(query, limit, offset)
+Mencari kode wilayah, kode pos, nama desa/kelurahan, kecamatan, dan kota menggunakan [elasticlunr.js](https://github.com/weixsong/elasticlunr.js) (sedikit berat).
+Penggunaan:
+```javascript
+const geografis = require('geografis');
+const query = "ciumbuleuit bandung"
+const search = geografis.search(query, 10, 0);
+console.log(search)
+```
+Contoh keluaran:
+```json
+{
+  "count": 1,
+  "limit": 10,
+  "offset": 0,
+  "data": [
+    {
+      "code": "31.71.01.1001",
+      "postal": 10110,
+      "slug": "dki-jakarta/kota-administrasi-jakarta-pusat/gambir/gambir",
+      "province": "DKI Jakarta",
+      "city": "Kota Administrasi Jakarta Pusat",
+      "district": "Gambir",
+      "village": "Gambir",
+      "latitude": -6.176262870636918,
+      "longitude": 106.82932428386471,
+      "elevation": 5,
+      "geometry": true
+    }
+  ]
+}
+```
+
+
+### ⚙️ Fungsi geografis.getProvinces()
+Mendapatkan list nama-nama provinsi.
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const provinces = geografis.getProvinces();
+console.log(provinces)
+```
+
+
+### ⚙️ Fungsi geografis.getProvince(code)
+Mendapatkan detil provinsi berdasarkan kode wilayah (parameter code).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const province = geografis.getProvince('32');
+console.log(provinces)
+```
+
+
+### ⚙️ Fungsi geografis.getProvinceBySlug(slug)
+Mendapatkan detil provinsi berdasarkan slug (parameter slug).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const province = geografis.getProvinceBySlug('dki-jakarta');
+console.log(provinces)
+```
+
+
+### ⚙️ Fungsi geografis.getCity(code)
+Mendapatkan detil kota/kabupaten berdasarkan kode wilayah (parameter code).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const city = geografis.getCity('31.71');
+console.log(city)
+```
+
+
+### ⚙️ Fungsi geografis.getCityBySlug(slug)
+Mendapatkan detil provinsi berdasarkan slug (parameter slug).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const city = geografis.getCityBySlug('jawa-barat/kota-bandung');
+console.log(city)
+```
+
+### ⚙️ Fungsi geografis.getDistrict(code)
+Mendapatkan detil kecamatan berdasarkan kode wilayah (parameter code).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const district = geografis.getDistrict('31.71.01');
+console.log(district)
+```
+
+
+### ⚙️ Fungsi geografis.getDistrictBySlug(slug)
+Mendapatkan detil kecamatan berdasarkan slug (parameter slug).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const district = geografis.getDistrictBySlug('jawa-barat/kota-bandung/coblong');
+console.log(district)
+```
+
+
+### ⚙️ Fungsi geografis.getVillage(code)
+Mendapatkan detil desa/kelurahan berdasarkan kode wilayah (parameter code).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const village = geografis.getVillage('31.71.01.1001');
+console.log(village)
+```
+
+
+### ⚙️ Fungsi geografis.getVillageBySlug(slug)
+Mendapatkan detil desa/kelurahan berdasarkan slug (parameter slug).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const village = geografis.getVillageBySlug('jawa-barat/kota-bandung/cidadap/hegarmanah');
+console.log(village)
+```
+
+
+### ⚙️ Fungsi geografis.getVillageByPostalCode(postalCode)
+Mendapatkan detil desa/kelurahan berdasarkan slug (parameter postalCode).
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const village = geografis.getVillageByPostalCode(40142);
+console.log(village)
+```
+
+
+### ⚙️ Fungsi geografis.getNearest(latitude, longitude)
+Mendapatkan desa/kelurahan terdekat (parameter latitude, longitude). Berguna untuk mendeteksi area.
+Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const village = geografis.getNearest(-6.8822007,107.6142733);
+console.log(village)
+```
+
+
+### ⚙️ Fungsi geografis.getGeometry(code)
+Untuk menggunakan fungsi ini, Anda harus mengunduh data geojson yang terdapat di [repository ini](https://github.com/drizki/geografis-data). Simpan di dalam direktori: project_anda / data / geojson. Penggunaan:
+```javascript
+const geografis = require('geografis'); 
+const json = geografis.getGeometry('32.73.08.1002');
+console.log(json)
+```
+
 
 ## Test
 Unduh modul ini dan jalankan:
