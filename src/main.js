@@ -1,10 +1,27 @@
 const fs = require('fs');  
 const utils = require('./utils.js'); 
+const elasticlunr = require('elasticlunr');
 
 const geografis = {
     data: JSON.parse(fs.readFileSync(__dirname + '/../data/json/data.json', 'utf8')),
     collection: JSON.parse(fs.readFileSync(__dirname + '/../data/json/collection.json', 'utf8')),
-
+    index () {
+        const stopwords = [
+            "desa", "dusun", "kelurahan", "kecamatan", "kota", "kabupaten", "provinsi",
+            "ds", "dus", "kel", "kec", "kot", "kab", "prov", "kode", "pos", "kodepos",
+            "daerah", "jalan", "jl", "jln", "rt", "rw"
+        ]
+        elasticlunr.clearStopWords();
+        elasticlunr.addStopWords(stopwords);
+        const fields = ["code", "postal", "village", "district", "city"];
+        const elastic = elasticlunr(function () {
+            fields.forEach(field => this.addField(field)); 
+            this.setRef("postal");
+        });
+        this.data.forEach(item => elastic.addDoc(item));
+        return elastic;
+    },
+    
     /**
      * Dumps all data
      * @returns {Array} Array of all villages
@@ -16,34 +33,34 @@ const geografis = {
     },
 
     /**
-     * Dumb search for code, postal, village, district, city, or province
+     * Search for code, postal, village, district, city, or province
      * @param {string} query search query
+     * @param {number} limit limit the number of results
+     * @param {number} offset offset the number of results
      * @returns {object} containing results count and data array
      * @throws {Error} if query is not string
      * @throws {Error} if query is empty
      * @example 
      * const search = geografis.search('ciumbuleuit'); 
      */
-    search(query) {
+    search(query, limit = 10, offset = 0) {
         if (!query) throw new Error('Parameter query is required');
         if (typeof query !== 'string') throw new Error('Parameter query must be string');
- 
-        query = query.toString().toLowerCase();  
-        const tmp = [];
+        if (limit && typeof limit !== 'number') throw new Error('Parameter limit must be number');
+        if (offset && typeof offset !== 'number') throw new Error('Parameter offset must be number');
+        if (limit <= 0) throw new Error('Parameter limit must be greater than 0');
+        if (offset && offset < 0) throw new Error('Parameter offset can not be negative number');
+
+        const elastic = this.index();
+        let results = []; 
+
+        const search = elastic.search(query, {fields: {village: {boost: 2}, district: {boost: 1.5}, city: {boost: 1}, postal: {boost: 2}, code: {boost: 2}}});
+        search.forEach(item => results.push(this.data.find(i => i.postal === Number(item.ref))));
         
-        for (let i = 0; i < this.data.length; i++) {
-            for (let k in this.data[i]) {
-                if (!this.data[i].hasOwnProperty(k) || !this.data[i][k]) continue;
-                if (this.data[i][k].toString().toLowerCase().indexOf(query) >= 0) {
-                    if (tmp.indexOf(this.data[i]) < 0) tmp.push(this.data[i]);
-                } 
-            }
-        }
-        
-        const results = { count: 0, data: [] };
-        results.count = tmp.length;
-        results.data = tmp; 
-        return results; 
+        const count = results.length;
+        results = results.slice(offset, offset + limit);
+
+        return {count: count, limit, offset, data: results};
     },
 
     /**

@@ -2,7 +2,7 @@ const geografis = require('../src/main.js');
 // const geografis = require('geografis'); -- uncomment this line if you want to test the package from npm/yarn & comment above line
 
 const dump          = geografis.dump();
-const search        = geografis.search('ciumbuleuit');
+const search        = geografis.search('ciumbuleuit', 10, 1);
 const provinces     = geografis.getProvinces();
 const province      = geografis.getProvince('32');
 const provinceSlug  = geografis.getProvinceBySlug('jawa-barat');
