@@ -43,7 +43,7 @@ const geografis = {
      * @example 
      * const search = geografis.search('ciumbuleuit'); 
      */
-    search(query, limit = 10, offset = 0) {
+    search(query, limit = 10, offset = 0, useIndex = false) {
         if (!query) throw new Error('Parameter query is required');
         if (typeof query !== 'string') throw new Error('Parameter query must be string');
         if (limit && typeof limit !== 'number') throw new Error('Parameter limit must be number');
@@ -51,12 +51,28 @@ const geografis = {
         if (limit <= 0) throw new Error('Parameter limit must be greater than 0');
         if (offset && offset < 0) throw new Error('Parameter offset can not be negative number');
 
-        const elastic = this.index();
-        let results = []; 
+        if (useIndex) {
+            const elastic = this.index();
+            let results = []; 
 
-        const search = elastic.search(query, {fields: {village: {boost: 2}, district: {boost: 1.5}, city: {boost: 1}, postal: {boost: 2}, code: {boost: 2}}});
-        search.forEach(item => results.push(this.data.find(i => i.postal === Number(item.ref))));
-        
+            const search = elastic.search(query, {fields: {village: {boost: 2}, district: {boost: 1.5}, city: {boost: 1}, postal: {boost: 2}, code: {boost: 2}}});
+            search.forEach(item => results.push(this.data.find(i => i.postal === Number(item.ref))));
+            
+            const count = results.length;
+            results = results.slice(offset, offset + limit);
+
+            return {count: count, limit, offset, data: results};
+        }
+
+        let results = this.data.filter(item => {
+            // search object keys and values for query
+            return Object.keys(item).some(key => {
+                if (item[key]) {
+                    return item[key].toString().toLowerCase().includes(query.toLowerCase());
+                }
+            });
+        });
+
         const count = results.length;
         results = results.slice(offset, offset + limit);
 

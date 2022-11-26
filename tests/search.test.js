@@ -8,8 +8,12 @@ test('geografis.search should return correct object keys of count, limit, offset
     expect(Object.keys(geografis.search('ciumbuleuit', 10, 1))).toEqual(['count', 'limit', 'offset', 'data']);
 })
 
-test('geografis.search should return exactly 1 result data', () => {
-    expect(geografis.search('40142').count).toBe(1);
+test('geografis.search should return exactly 1 result', () => {
+    expect(geografis.search('40142', 10, 0, true).count).toBe(1);
+})
+
+test('geografis.search should return exactly 22 results', () => {
+    expect(geografis.search('40142', 10, 0, true).count).toBe(1);
 })
 
 test('geografis.search should throw "Parameter query is required"', () => { 
